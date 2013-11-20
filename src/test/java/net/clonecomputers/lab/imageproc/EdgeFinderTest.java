@@ -1,5 +1,7 @@
 package net.clonecomputers.lab.imageproc;
 
+import static java.lang.Math.hypot;
+
 import static org.junit.Assert.*;
 
 import java.awt.image.BufferedImage;
@@ -22,9 +24,25 @@ public class EdgeFinderTest {
 		 													 {0, 0,    0,    0,    0,    0,    0, 0, 0},
 															 {0, 0,    0,    0,    0,    0,    0, 0, 0}};
 		
-		/*{{0, 0, 0, 0, 0, 0, 0, 0, 0},
-													  {0, hypot(255/9, 255/9), hypot(4*255/9, 2*255/9), hypot(8*255/9, 2*255/9), 10*255/9, hypot(8*255/9, 2*255/9), hypot(4*255/9, 2*255/9), hypot(4*255/9, 2*255/9), hypot(255/9, 255/9), 0},
-													  {0, hypot(2*255/9, 4*255/9), }};*/
+	private static final double[][] testSmoothedGray = {{0, 0, 0,   0,   0,   0, 0, 0, 0},
+														{0, 0, 0,   0,   0,   0, 0, 0, 0},
+														{0, 0, 0,   0,   0,   0, 0, 0, 0},
+														{0, 0, 0, 255, 255, 255, 0, 0, 0},
+														{0, 0, 0, 255, 255, 255, 0, 0, 0},
+														{0, 0, 0, 255, 255, 255, 0, 0, 0},
+														{0, 0, 0,   0,   0,   0, 0, 0, 0},
+														{0, 0, 0,   0,   0,   0, 0, 0, 0},
+														{0, 0, 0,   0,   0,   0, 0, 0, 0}};
+	
+	private static final double[][] testSmoothedGrayEdges = {{0, 0, 0, 0, 0, 0, 0, 0, 0},
+															 {0, 0, 0, 0, 0, 0, 0, 0, 0},
+															 {0, 0, hypot(255,255), hypot(765,255), hypot(1020,0), hypot(765,255), hypot(255,255), 0, 0},
+															 {0, 0, hypot(255,765), hypot(765,765), hypot(1020,0), hypot(765,765), hypot(255,765), 0, 0},
+															 {0, 0, hypot(0,1020),  hypot(0,1020),   			0, hypot(0,1020),  hypot(0,1020),  0, 0},
+															 {0, 0, hypot(255,765), hypot(765,765), hypot(1020,0), hypot(765,765), hypot(255,765), 0, 0},
+															 {0, 0, hypot(255,255), hypot(765,255), hypot(1020,0), hypot(765,255), hypot(255,255), 0, 0},
+															 {0, 0, 0, 0, 0, 0, 0, 0, 0},
+															 {0, 0, 0, 0, 0, 0, 0, 0, 0}};
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -49,6 +67,22 @@ public class EdgeFinderTest {
 			System.out.println(Arrays.deepToString(testImageSmoothedGray));
 			System.out.println("Smoothed Gray Actual:");
 			System.out.println(Arrays.deepToString(smoothedGray));
+		}
+	}
+	
+	@Test
+	public void testEdges() {
+		EdgeFinder edgeFinder = new EdgeFinder();
+		double[][] edges = edgeFinder.findEdges(testSmoothedGray);
+		try {
+			for(int i = 0; i < edges.length; ++i) {
+				assertArrayEquals(testSmoothedGrayEdges[i], edges[i], 0.5);
+			}
+		} finally {
+			System.out.println("Edges Expected:");
+			System.out.println(Arrays.deepToString(testSmoothedGrayEdges));
+			System.out.println("Edges Actual:");
+			System.out.println(Arrays.deepToString(edges));
 		}
 	}
 
