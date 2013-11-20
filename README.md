@@ -12,10 +12,10 @@ This is my implementation of the solution in Java.
 ####Completed:
 * README
 * Class that takes an image and outputs a two dimensional array of numbers representing the edges of the picture using the [Sobel operator](http://en.wikipedia.org/wiki/Sobel_operator)
+* Interface to represent an accumulator
 
 
 ####Short Term Plans:
-* Interface to represent an accumulator
 * Implementation of that interface for circles
 * Main class to handle image loading and saving and calling other classes
 
