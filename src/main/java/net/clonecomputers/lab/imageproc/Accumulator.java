@@ -1,8 +1,10 @@
 package net.clonecomputers.lab.imageproc;
 
+import java.util.Set;
+
 public interface Accumulator<T> {
 
 	public void accumulate();
-	public T threshold(double thresh);
+	public Set<T> threshold(double thresh);
 	
 }
