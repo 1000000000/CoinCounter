@@ -1,4 +1,4 @@
-#Atomic Words
+#Coin Counter
 
 ---
 ###Description:
