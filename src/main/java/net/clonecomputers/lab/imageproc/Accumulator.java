@@ -5,6 +5,6 @@ import java.util.Set;
 public interface Accumulator<T> {
 
 	public void accumulate();
-	public Set<T> threshold(double thresh) throws IllegalAccessException;
+	public Set<T> threshold(int thresh) throws IllegalStateException;
 	
 }
