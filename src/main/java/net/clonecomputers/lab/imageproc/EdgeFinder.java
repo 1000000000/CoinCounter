@@ -4,8 +4,18 @@ import java.awt.image.BufferedImage;
 
 public class EdgeFinder {
 
-	public synchronized double[][] processImage(BufferedImage image) {
-		return findEdges(graySmooth(image));
+	public synchronized boolean[][] processImage(BufferedImage image, double threshold) {
+		return threshold(findEdges(graySmooth(image)), threshold);
+	}
+	
+	boolean[][] threshold(double[][] array, double threshold) {
+		boolean[][] result = new boolean[array.length][array[0].length];
+		for(int i = 0; i < result.length; ++i) {
+			for(int j = 0; j < result[i].length; ++j) {
+				result[i][j] = array[i][j] >= threshold;
+			}
+		}
+		return result;
 	}
 	
 	double[][] graySmooth(BufferedImage image) {
@@ -13,7 +23,7 @@ public class EdgeFinder {
 		for(int x = 0; x < graySmoothed.length; ++x) {
 			for(int y = 0; y < graySmoothed[x].length; ++y) {
 				if(x < 1 || x >= graySmoothed.length - 1 || y < 1 || y >= graySmoothed[x].length - 1) {
-					graySmoothed[x][y] = 0;
+					graySmoothed[x][y] = grayscale(image.getRGB(x, y));
 					continue;
 				}
 				graySmoothed[x][y] = smooth(x, y, image);
