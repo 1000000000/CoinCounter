@@ -1,7 +1,6 @@
 package net.clonecomputers.lab.imageproc;
 
 import java.awt.Point;
-
 import java.util.HashSet;
 import java.util.Set;
 
@@ -26,7 +25,10 @@ public class CircleAccumulator implements Accumulator<int[]> {
 	public void accumulate() {
 		for(int x = 0; x < acc[0].length; ++x) {
 			for(int y = 0; y < acc[0][x].length; ++y) {
-				if(!edges[x][y]) continue;
+				if(!edges[x][y]) {
+					CoinCounter.logger.finest("Skipping point (" + x + ", " + y + "). Not an edge!");
+					continue;
+				}
 				for(int r = 0; r < acc.length; ++r) {
 					for(Point p : getCirclePoints(r + minR, x, y)) {
 						if(p.x >= 0 && p.y >= 0 && p.x < acc[r].length && p.y < acc[r][x].length) {
@@ -34,7 +36,9 @@ public class CircleAccumulator implements Accumulator<int[]> {
 						}
 					}
 				}
+				CoinCounter.logger.finer("Done with point (" + x + ", " + y + ")");
 			}
+			CoinCounter.logger.fine("Done with x = " + x);
 		}
 		isDone = true;
 	}
